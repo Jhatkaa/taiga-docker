@@ -1,0 +1,29 @@
+version: "3.5"
+
+x-environment:
+  &default-back-environment
+  POSTGRES_DB: "${AWS_RDS_DB}"
+  POSTGRES_USER: "${AWS_RDS_USER}"
+  POSTGRES_PASSWORD: "${AWS_RDS_PASSWORD}"
+  POSTGRES_HOST: "${AWS_RDS_HOSTNAME}"
+  TAIGA_SECRET_KEY: "${TAIGA_SECRET_KEY}"
+  # these rabbitmq settings should be the same as
+  # in taiga-rabbitmq and taiga-events services
+  RABBITMQ_USER: taiga
+  RABBITMQ_PASS: taiga
+  CELERY_ENABLED: "False"
+
+x-volumes:
+  &default-back-volumes
+  - taiga-static-data:/taiga-back/static
+  - taiga-media-data:/taiga-back/media
+  # - ./config.py:/taiga-back/settings/config.py
+
+services:
+  taiga-manage:
+    image: taigaio/taiga-back:latest
+    environment: *default-back-environment
+    entrypoint: "python manage.py"
+    volumes: *default-back-volumes
+    networks:
+      - taiga
