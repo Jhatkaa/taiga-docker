@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - deploy/jhatkaa
+      - dev/jhatkaa
 
 env:
   APP_NAME: taiga

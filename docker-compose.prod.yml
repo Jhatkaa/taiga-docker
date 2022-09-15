@@ -9,14 +9,14 @@ x-environment:
   POSTGRES_HOST: "${AWS_RDS_HOSTNAME}"
   # Taiga settings
   TAIGA_SECRET_KEY: "${TAIGA_SECRET_KEY}"
-  TAIGA_SITES_SCHEME: "http"
-  TAIGA_SITES_DOMAIN: "localhost:9000"
+  TAIGA_SITES_SCHEME: "${TAIGA_PROTOCOL}"
+  TAIGA_SITES_DOMAIN: "${TAIGA_DOMAIN}"
   TAIGA_SUBPATH: "" # "" or "/subpath"
   # Email settings. Uncomment following lines and configure your SMTP server
   EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
   DEFAULT_FROM_EMAIL: "${MAIL_FROM}"
   EMAIL_USE_TLS: "True"
-  # EMAIL_USE_SSL: "False"
+  EMAIL_USE_SSL: "False"
   EMAIL_HOST: "${MAIL_HOST}"
   EMAIL_PORT: "${MAIL_PORT}"
   EMAIL_HOST_USER: "${MAIL_USERNAME}"
@@ -28,12 +28,13 @@ x-environment:
   # Telemetry settings
   ENABLE_TELEMETRY: "False"
   ENABLE_SLACK: "True"
+  DEBUG: "True"
 
 x-volumes:
   &default-back-volumes
   - taiga-static-data:/taiga-back/static
   - taiga-media-data:/taiga-back/media
-  # - ./config.py:/taiga-back/settings/config.py
+  - ./config.py:/taiga-back/settings/config.py
 
 services:
   taiga-back:
@@ -72,10 +73,11 @@ services:
   taiga-front:
     image: taigaio/taiga-front:latest
     environment:
-      TAIGA_URL: "http://localhost:9000"
-      TAIGA_WEBSOCKETS_URL: "ws://localhost:9000"
+      TAIGA_URL: "${TAIGA_PROTOCOL}://${TAIGA_DOMAIN}"
+      TAIGA_WEBSOCKETS_URL: "wss://${TAIGA_DOMAIN}"
       TAIGA_SUBPATH: "" # "" or "/subpath"
       ENABLE_SLACK: "true"
+      DEBUG: "true"
     networks:
       - taiga
     # volumes:
@@ -86,7 +88,7 @@ services:
     environment:
       RABBITMQ_USER: taiga
       RABBITMQ_PASS: taiga
-      TAIGA_SECRET_KEY: "taiga-back-secret-key"
+      TAIGA_SECRET_KEY: "${TAIGA_SECRET_KEY}"
     networks:
       - taiga
     depends_on:
@@ -108,7 +110,7 @@ services:
     image: taigaio/taiga-protected:latest
     environment:
       MAX_AGE: 360
-      SECRET_KEY: "taiga-back-secret-key"
+      SECRET_KEY: "${TAIGA_SECRET_KEY}"
     networks:
       - taiga
 
