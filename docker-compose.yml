@@ -13,23 +13,21 @@ x-environment:
   TAIGA_SITES_DOMAIN: "localhost:9000"
   TAIGA_SUBPATH: "" # "" or "/subpath"
   # Email settings. Uncomment following lines and configure your SMTP server
-  EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
-  DEFAULT_FROM_EMAIL: "technology@jhatkaa.org"
-  EMAIL_USE_TLS: "True"
-  EMAIL_USE_SSL: "True"
-  EMAIL_HOST: "email-smtp.eu-west-1.amazonaws.com"
-  EMAIL_PORT: 587
-  EMAIL_HOST_USER: "AKIAJSVK3TVVO5IEDW7Q"
-  EMAIL_HOST_PASSWORD: "Agrg6qicFwg97xn9TpioGPErTAm9D72qRY5E4V+IlcjO"
+  # EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
+  # DEFAULT_FROM_EMAIL: "no-reply@example.com"
+  # EMAIL_USE_TLS: "False"
+  # EMAIL_USE_SSL: "False"
+  # EMAIL_HOST: "smtp.host.example.com"
+  # EMAIL_PORT: 587
+  # EMAIL_HOST_USER: "user"
+  # EMAIL_HOST_PASSWORD: "password"
   # Rabbitmq settings
   # Should be the same as in taiga-async-rabbitmq and taiga-events-rabbitmq
   RABBITMQ_USER: taiga
   RABBITMQ_PASS: taiga
   # Telemetry settings
   ENABLE_TELEMETRY: "True"
-  PUBLIC_REGISTER_ENABLED: "True"
-  DEBUG: "True"
-  
+
 x-volumes:
   &default-back-volumes
   - taiga-static-data:/taiga-back/static
@@ -90,9 +88,6 @@ services:
       TAIGA_URL: "http://localhost:9000"
       TAIGA_WEBSOCKETS_URL: "ws://localhost:9000"
       TAIGA_SUBPATH: "" # "" or "/subpath"
-      PUBLIC_REGISTER_ENABLED: "true" 
-      DEBUG: "true"
-
     networks:
       - taiga
     # volumes:

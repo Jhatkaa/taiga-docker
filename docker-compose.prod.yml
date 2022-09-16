@@ -28,7 +28,6 @@ x-environment:
   # Telemetry settings
   ENABLE_TELEMETRY: "False"
   ENABLE_SLACK: "True"
-  DEBUG: "True"
 
 x-volumes:
   &default-back-volumes
@@ -77,7 +76,6 @@ services:
       TAIGA_WEBSOCKETS_URL: "wss://${TAIGA_DOMAIN}"
       TAIGA_SUBPATH: "" # "" or "/subpath"
       ENABLE_SLACK: "true"
-      DEBUG: "true"
     networks:
       - taiga
     # volumes:
