@@ -37,7 +37,7 @@ x-volumes:
 
 services:
   taiga-back:
-    image: taigaio/taiga-back:latest
+    image: "${ECR_REGISTRY}/taiga-back:${TAIGA_BACK_TAG}"
     environment: *default-back-environment
     volumes: *default-back-volumes
     networks:
@@ -47,7 +47,7 @@ services:
       - taiga-async-rabbitmq
 
   taiga-async:
-    image: taigaio/taiga-back:latest
+    image: "${ECR_REGISTRY}/taiga-back:${TAIGA_BACK_TAG}"
     entrypoint: ["/taiga-back/docker/async_entrypoint.sh"]
     environment: *default-back-environment
     volumes: *default-back-volumes

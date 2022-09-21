@@ -25,6 +25,9 @@ tags_to_env () {
     done
 }
 
+
+export TAIGA_BACK_TAG=$(aws ecr describe-images --output json --repository-name taiga-back --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' | jq . --raw-output)
+
 # Execute the commands
 instanceTags=$(getInstanceTags)
 tags_to_env "$instanceTags"

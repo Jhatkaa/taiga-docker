@@ -21,7 +21,7 @@ x-volumes:
 
 services:
   taiga-manage:
-    image: taigaio/taiga-back:latest
+    image: "${ECR_REGISTRY}/taiga-back:${TAIGA_BACK_TAG}"
     environment: *default-back-environment
     entrypoint: "python manage.py"
     volumes: *default-back-volumes
