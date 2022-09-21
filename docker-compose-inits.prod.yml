@@ -17,11 +17,11 @@ x-volumes:
   &default-back-volumes
   - taiga-static-data:/taiga-back/static
   - taiga-media-data:/taiga-back/media
-  # - ./config.py:/taiga-back/settings/config.py
+  - ./config.py:/taiga-back/settings/config.py
 
 services:
   taiga-manage:
-    image: taigaio/taiga-back:latest
+    image: "${ECR_REGISTRY}/taiga-back:${TAIGA_BACK_TAG}"
     environment: *default-back-environment
     entrypoint: "python manage.py"
     volumes: *default-back-volumes
